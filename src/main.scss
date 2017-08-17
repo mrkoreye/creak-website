@@ -109,6 +109,9 @@ body {
   }
 
   .submit-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     border-radius: 0;
     border-width: 1px;
     border-color: black;
@@ -128,7 +131,17 @@ body {
     margin: 10px 0;
     padding: 8px;
     border: 2px solid $ugly-yellow-green;
+    border-radius: 0;
     box-shadow: $light-box-shadow;
+  }
+
+  .submit-button,
+  .email {
+    width: 300px;
+
+    @media (max-width: $phone-breakpoint) {
+      width: 100%;
+    }
   }
 }
 
