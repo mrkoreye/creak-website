@@ -174,7 +174,7 @@ gulp.task('watch', function() {
 
 gulp.task('connect', function() {
   return connect.server({
-    root: [__dirname],
+    root: ['build'],
     livereload: true
   });
 });
