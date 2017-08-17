@@ -195,7 +195,7 @@ gulp.task('develop', function() {
 gulp.task('upload:s3', function() {
   return gulp.src('build/**')
     .pipe(s3({
-      Bucket: 'creak-website',
+      Bucket: 'www.thecreak.net',
       ACL: 'public-read'
     }));
 });
