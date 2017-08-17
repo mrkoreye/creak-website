@@ -13,11 +13,14 @@ var connect = require('gulp-connect');
 var uglify = require('gulp-uglify');
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
+var s3 = require('gulp-s3-upload')({});
+var cloudfront = require('gulp-cloudfront-invalidate');
 
 gulp.task('build', function(callback) {
   return runSequence(
     'lint:scss',
     'clean',
+    'copy:assets',
     'scss',
     'postcss',
     'js',
@@ -28,7 +31,7 @@ gulp.task('build', function(callback) {
     'inject:css',
     'html:min',
     'inject:build-comment',
-    'rename-and-move',
+    'rename-index',
     callback
   );
 });
@@ -107,6 +110,11 @@ gulp.task('scss', function() {
     .pipe(gulp.dest('build'));
 });
 
+gulp.task('copy:assets', function() {
+  return gulp.src('assets/**')
+    .pipe(gulp.dest('build/assets'));
+});
+
 gulp.task('postcss', function() {
   return gulp.src('build/**/*.css')
     .pipe(postcss([ autoprefixer() ]))
@@ -152,10 +160,10 @@ gulp.task('inject:build-comment', function() {
     .pipe(gulp.dest('build'));
 });
 
-gulp.task('rename-and-move', function() {
+gulp.task('rename-index', function() {
   return gulp.src('build/shell.html')
     .pipe(rename('index.html'))
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('build'));
 });
 
 gulp.task('watch', function() {
@@ -184,3 +192,14 @@ gulp.task('develop', function() {
   );
 });
 
+gulp.task('upload:s3', function() {
+  return gulp.src('build/**')
+    .pipe(s3({
+      Bucket: 'creak-website',
+      ACL: 'public-read'
+    }));
+});
+
+gulp.task('deploy', function() {
+  runSequence('build', 'upload:s3');
+});
