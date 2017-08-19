@@ -201,5 +201,16 @@ gulp.task('upload:s3', function() {
 });
 
 gulp.task('deploy', function() {
-  runSequence('build', 'upload:s3');
+  runSequence('build', 'upload:s3', 'invalidate:cloudfront');
+});
+
+// Invalidating cloudfront is kind of an anti-pattern, since using
+// versioned assets is the better way to go. But since all we have
+// is an index.html file and no assets to download, it makes sense to do it here
+gulp.task('invalidate:cloudfront', function () {
+  return gulp.src('*')
+    .pipe(cloudfront({
+      distribution: 'E2AD3ISGQFOXGB',
+      paths: ['/index.html']
+    }));
 });

@@ -20,6 +20,7 @@
     "autoprefixer": "^7.1.2",
     "del": "3.0.0",
     "gulp": "3.9.1",
+    "gulp-cloudfront-invalidate": "^0.1.4",
     "gulp-connect": "^5.0.0",
     "gulp-htmlmin": "3.0.0",
     "gulp-image-resize": "0.12.0",

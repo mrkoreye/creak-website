@@ -52,5 +52,16 @@
     var selectedElement = listElements[randomElementIndex];
     selectedElement.style.color = chosenColor;
   }, 200);
+
+  // Write The Creak and Gorlax to footer
+  var footer = document.getElementById('footer');
+  var footerText = [];
+
+  while (footerText.length < 50) {
+    footerText.push('THECREAKCHETREAK');
+  }
+
+  footerText.push('PRAISEGORLAX');
+  footer.innerText = footerText.join('');
 })()
 
